@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>콜라츠추측</h1>
+    <form>
+     <input type='number' id="inputnumber" min='1' title="자연수를 입력하세요">
+     <button id ="submit" type ="button">확인</button>
+    </form>
+
+    <canvas id="myCanvas" width="800" height="800" style="border:1px solid #000; display:block; margin-top:20px;"></canvas>
+    
+    <script>
+        const canvas = document.getElementById("myCanvas");
+        const ctx = canvas.getContext("2d");
+        document.getElementById('submit').addEventListener('click',  
+        function(){
+            let num = parseInt(document.getElementById('inputnumber').value);
+            console.log(num);
+
+              let nur = num;
+              //nur 입력값
+
+              let a = [];
+
+              for ( let i = 1; i <= nur; i++){
+                let b = i;
+                 a.push(b);
+
+                  if (b == 1)
+                  {
+                   b = 3*b +1;
+                  }a.push(b);
+
+                  while (b!==1)
+                  {
+                   if (b % 2 == 0){
+                   b = b/2;
+                   }
+                   else{
+                   b= 3*b +1;
+                   }
+                  a.push(b);
+                 }
+                } 
+                 window.a = a;
+                 console.log(a);
+                //수열계산, 수열 출력
+            let maxum = Math.max(...a);
+            console.log(maxum);
+
+            let point = [];
+
+            let cx = 400, cy = 400; // 원 중심
+            let r = 350;            // 원 반지름
+            let offset = 20;        // 점에서 떨어질 거리
+
+            //가장 큰수
+            for(let i = 0; i <maxum; i++)
+            {
+                let ang = 360/maxum * i-90;
+                let x = 400 + 350 * Math.cos(ang * Math.PI/180);
+                let y = 400 + 350* Math.sin(ang *Math.PI/180);
+                ctx.fillStyle = 'blue';
+                ctx.fillRect(x, y, 3, 3);
+
+                 let dx = x - cx;
+                 let dy = y - cy;
+                 let tx = x + dx / r * offset;
+                 let ty = y + dy / r * offset;
+
+                 ctx.fillStyle = "black";
+                 ctx.font = "12px Arial";
+                 ctx.fillText(i + 1, tx, ty);
+                point.push([x,y]);
+            }
+
+            let len = a.length;
+            
+            ctx.beginPath();
+            ctx.moveTo(point[0][0],point[0][1]);
+
+            for (let i = 0; i < len; i++)
+            {
+                let s = a[i]-1;
+                ctx.lineTo(point[s][0], point[s][1]);
+                
+            }
+            ctx.stroke()
+            
+        })
+    </script>
+    
+</body>
+</html>
